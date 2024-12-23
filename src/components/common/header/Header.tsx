@@ -1,8 +1,10 @@
+import HeaderStyle from './HeaderStyle';
+
 const Header = () => {
    return (
-      <header>
+      <HeaderStyle>
          <h1>trade nest</h1>
-      </header>
+      </HeaderStyle>
    );
 };
 
