@@ -18,7 +18,7 @@ export const state = {
 
 export const ThemeContext = createContext<State>(state);
 
-export const BookStoreThemeProvider = ({ children }: { children: ReactNode }) => {
+export const TradeNestThemeProvider = ({ children }: { children: ReactNode }) => {
    const [themeName, setThemeName] = useState<ThemeName>(DEFAULT_THEME_NAME);
 
    const toggleTheme = () => {

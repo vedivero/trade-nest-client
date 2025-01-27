@@ -1,22 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import Title from './Title';
-import { BookStoreThemeProvider } from '../../../context/themeContext';
+import { TradeNestThemeProvider } from '../../../context/ThemeContext';
 
 describe('Title component Test', () => {
    it('check render', () => {
       render(
-         <BookStoreThemeProvider>
+         <TradeNestThemeProvider>
             <Title size='large'>Title</Title>
-         </BookStoreThemeProvider>,
+         </TradeNestThemeProvider>,
       );
       expect(screen.getByText('Title')).toBeInTheDocument();
    });
 
    it('size props application', () => {
       const { container } = render(
-         <BookStoreThemeProvider>
+         <TradeNestThemeProvider>
             <Title size='large'>제목</Title>
-         </BookStoreThemeProvider>,
+         </TradeNestThemeProvider>,
       );
 
       expect(container?.firstChild).toHaveStyle({ fontSize: '2rem' });

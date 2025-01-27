@@ -1,14 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import InputText from './InputText';
-import { BookStoreThemeProvider } from '../../../context/themeContext';
+import { TradeNestThemeProvider } from '../../../context/ThemeContext';
 import React from 'react';
 
 describe('Button component Test', () => {
    it('check render', () => {
       render(
-         <BookStoreThemeProvider>
+         <TradeNestThemeProvider>
             <InputText placeholder='여기에 입력하세요' />
-         </BookStoreThemeProvider>,
+         </TradeNestThemeProvider>,
       );
       expect(screen.getByPlaceholderText('여기에 입력하세요')).toBeInTheDocument();
    });
@@ -16,9 +16,9 @@ describe('Button component Test', () => {
    it('forwardRef Test', () => {
       const ref = React.createRef<HTMLInputElement>();
       render(
-         <BookStoreThemeProvider>
+         <TradeNestThemeProvider>
             <InputText placeholder='여기에 입력하세요' ref={ref} />
-         </BookStoreThemeProvider>,
+         </TradeNestThemeProvider>,
       );
 
       expect(ref.current).toBeInstanceOf(HTMLInputElement);

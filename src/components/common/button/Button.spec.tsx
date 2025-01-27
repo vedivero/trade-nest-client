@@ -1,26 +1,26 @@
 import { render, screen } from '@testing-library/react';
 import Button from './Button';
-import { BookStoreThemeProvider } from '../../../context/themeContext';
+import { TradeNestThemeProvider } from '../../../context/ThemeContext';
 
 describe('Button component Test', () => {
    it('check render', () => {
       render(
-         <BookStoreThemeProvider>
+         <TradeNestThemeProvider>
             <Button size='large' schema='primary'>
                Button Test
             </Button>
-         </BookStoreThemeProvider>,
+         </TradeNestThemeProvider>,
       );
       expect(screen.getByText('Button Test')).toBeInTheDocument();
    });
 
    it('size props application', () => {
       const { container } = render(
-         <BookStoreThemeProvider>
+         <TradeNestThemeProvider>
             <Button size='large' schema='primary'>
                Button Test
             </Button>
-         </BookStoreThemeProvider>,
+         </TradeNestThemeProvider>,
       );
 
       expect(screen.getByRole('button')).toHaveStyle({

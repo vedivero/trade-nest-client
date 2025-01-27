@@ -1,16 +1,16 @@
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
+import { TradeNestThemeProvider } from './context/ThemeContext';
 import ThemeSwitcher from './components/themeSwitcher/ThemeSwitcher';
-import { BookStoreThemeProvider, ThemeContext } from './context/themeContext';
 
 function App() {
    return (
-      <BookStoreThemeProvider>
+      <TradeNestThemeProvider>
          <ThemeSwitcher />
          <Layout>
             <Home />
          </Layout>
-      </BookStoreThemeProvider>
+      </TradeNestThemeProvider>
    );
 }
 
