@@ -1,15 +1,12 @@
-import Layout from './components/layout/Layout';
-import Home from './pages/Home';
 import { TradeNestThemeProvider } from './context/ThemeContext';
-import ThemeSwitcher from './components/themeSwitcher/ThemeSwitcher';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router/route';
 
 function App() {
    return (
       <TradeNestThemeProvider>
-         <ThemeSwitcher />
-         <Layout>
-            <Home />
-         </Layout>
+         {/* <ThemeSwitcher /> */}
+         <RouterProvider router={router} />
       </TradeNestThemeProvider>
    );
 }
