@@ -1,7 +1,7 @@
 import { ButtonSchema, ButtonSize } from '../../../style/theme';
 import ButtonStyle from './ButtonStyle';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
    children: React.ReactNode;
    size: ButtonSize;
    schema: ButtonSchema;
@@ -9,9 +9,9 @@ export interface ButtonProps {
    isLoading?: boolean;
 }
 
-const Button = ({ children, size, schema, disabled, isLoading }: ButtonProps) => {
+const Button = ({ children, size, schema, disabled, isLoading, ...props }: ButtonProps) => {
    return (
-      <ButtonStyle size={size} schema={schema} disabled={disabled} isLoading={isLoading}>
+      <ButtonStyle size={size} schema={schema} disabled={disabled} isLoading={isLoading} {...props}>
          {children}
       </ButtonStyle>
    );
