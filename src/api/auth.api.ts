@@ -1,8 +1,8 @@
 import { LoginProps } from '../pages/login/Login';
-import { SignUpProps } from '../pages/singUp/SignUp';
+import { SignUpProps } from '../pages/signUp/SignUp';
 import { httpClient } from './http';
 
-export const singUp = async (userData: SignUpProps) => {
+export const signUp = async (userData: SignUpProps) => {
    const response = await httpClient.post('/auth/signup', userData);
    return response.data;
 };

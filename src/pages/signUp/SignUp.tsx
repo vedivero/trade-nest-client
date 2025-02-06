@@ -4,7 +4,7 @@ import InputText from '../../components/common/inputText/InputText';
 import Title from '../../components/common/title/Title';
 import { SignUpStyled } from './SignUpStyle';
 import { useForm } from 'react-hook-form';
-import { singUp } from '../../api/auth.api';
+import { signUp } from '../../api/auth.api';
 import { useAlert } from '../../hooks/useAlert';
 
 export interface SignUpProps {
@@ -25,7 +25,7 @@ const SignUp = () => {
    } = useForm<SignUpProps>();
 
    const onSubmit = (data: SignUpProps) => {
-      singUp(data)
+      signUp(data)
          .then(() => {
             showAlert('인증 메일을 전송했습니다. \n메일을 확인해 주세요.');
             navigate('/');
