@@ -25,4 +25,13 @@ export const LoginStyle = styled.div`
       justify-content: center;
       gap: 16px;
    }
+
+   .social-login button {
+      margin-bottom: 8px; // 버튼 간의 여백 추가
+   }
+
+   &:hover {
+      opacity: 0.9; // 약간 어두워짐
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // 그림자 효과 추가
+   }
 `;
