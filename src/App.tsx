@@ -1,12 +1,14 @@
 import { TradeNestThemeProvider } from './context/ThemeContext';
+import { UserProvider } from './context/UserContext';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/route';
 
 function App() {
    return (
       <TradeNestThemeProvider>
-         {/* <ThemeSwitcher /> */}
-         <RouterProvider router={router} />
+         <UserProvider>
+            <RouterProvider router={router} />
+         </UserProvider>
       </TradeNestThemeProvider>
    );
 }

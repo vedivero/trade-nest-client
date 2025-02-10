@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LoginStyle } from './LoginStyle';
 import Button from '../../components/common/button/Button';
 import InputText from '../../components/common/inputText/InputText';
 import { useForm } from 'react-hook-form';
 import { useAlert } from '../../hooks/useAlert';
-import { login } from '../../api/auth.api';
+import { login, socialLogin } from '../../api/auth.api';
 import Title from '../../components/common/title/Title';
-import { httpClient } from '../../api/http';
+import { useUser } from '../../context/UserContext';
 
 export interface LoginProps {
    email: string;
@@ -15,38 +15,42 @@ export interface LoginProps {
 
 const Login = () => {
    const showAlert = useAlert();
+   const navigate = useNavigate();
+   const { setUser } = useUser();
+
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm<LoginProps>();
 
-   // 소셜 로그인 요청 함수
    const handleSocialLogin = async (provider: 'kakao' | 'naver' | 'google') => {
-      console.log(provider);
       try {
-         const response = await httpClient.get(`/socialLogin/${provider}`);
-         if (response.data?.redirectUrl) {
-            console.log(response.data?.redirectUrl);
-            window.location.href = response.data.redirectUrl; // 백엔드에서 받은 리다이렉트 URL로 이동
+         const redirectUrl = await socialLogin(provider);
+         if (redirectUrl) {
+            window.location.href = redirectUrl;
          } else {
             showAlert('리다이렉트 URL을 가져오지 못했습니다.');
          }
       } catch (error) {
-         console.error(`${provider} 로그인 요청 실패:`, error);
          showAlert(`${provider} 로그인 중 오류가 발생했습니다.`);
       }
    };
 
    const onSubmit = (data: LoginProps) => {
       login(data)
-         .then(() => {
+         .then((response) => {
+            console.log('로그인 응답:', response); // 디버깅용
             showAlert('로그인 되었습니다.');
+
+            // 🔹 로그인 후 `setUser` 호출
+            setUser(response.user);
+
+            navigate('/');
          })
          .catch((error) => {
-            const message = '로그인 중 오류가 발생했습니다.';
-            console.error(error.response?.data?.message);
-            showAlert(message);
+            console.error('로그인 오류:', error.response?.data?.message);
+            showAlert('로그인 중 오류가 발생했습니다.');
          });
    };
 
