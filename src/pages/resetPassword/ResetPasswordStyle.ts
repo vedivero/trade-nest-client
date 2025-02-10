@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LoginStyle = styled.div`
+export const ResetPasswordStyle = styled.div`
    max-width: ${({ theme }) => theme.layout.width.small};
    margin: 80px auto; //상하 마진 80, 좌우마진 auto = 가운데 정렬
 
@@ -14,6 +14,7 @@ export const LoginStyle = styled.div`
    input {
       width: 100%;
    }
+
    button {
       width: 100%;
    }
@@ -21,18 +22,5 @@ export const LoginStyle = styled.div`
    .info {
       text-align: center;
       padding: 16px 0 0 0;
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 50px;
-   }
-
-   .social-login button {
-      margin-bottom: 8px; // 버튼 간의 여백 추가
-   }
-
-   &:hover {
-      opacity: 0.9; // 약간 어두워짐
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // 그림자 효과 추가
    }
 `;

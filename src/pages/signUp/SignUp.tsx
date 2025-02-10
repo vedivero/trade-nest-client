@@ -22,17 +22,20 @@ const SignUp = () => {
       register,
       handleSubmit,
       formState: { errors },
-   } = useForm<SignUpProps>();
+      watch,
+   } = useForm<SignUpProps>({
+      mode: 'onChange',
+   });
 
    const onSubmit = (data: SignUpProps) => {
       signUp(data)
          .then(() => {
-            showAlert('인증 메일을 전송했습니다. \n메일을 확인해 주세요.');
+            showAlert('인증 메일을 발송했습니다. \n메일 인증을 통해 가입을 완료해 주세요.');
             navigate('/');
          })
          .catch((error) => {
-            const message = '회원가입 처리 중 오류가 발생했습니다.';
-            console.log(error.response?.data?.message);
+            const serverMessage = error.response?.data?.message;
+            const message = serverMessage || '회원가입 처리 중 오류가 발생했습니다.';
             showAlert(message);
          });
    };
@@ -47,45 +50,68 @@ const SignUp = () => {
                   <InputText
                      placeholder='example@email.com'
                      inputType='email'
-                     {...register('email', { required: true })}
+                     {...register('email', {
+                        required: '이메일을 입력해 주세요.',
+                        pattern: {
+                           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                           message: '유효한 이메일 주소를 입력해 주세요.',
+                        },
+                     })}
                   />
-                  {errors.email && <p className='error-text'>이메일을 입력해 주세요.</p>}
+                  {errors.email && <p className='error-text'>{errors.email.message}</p>}
                </fieldset>
                <fieldset>
                   닉네임
                   <InputText
                      placeholder='nickname'
                      inputType='text'
-                     {...register('nickname', { required: true })}
+                     {...register('nickname', {
+                        required: '닉네임을 입력해 주세요.',
+                        minLength: {
+                           value: 2,
+                           message: '닉네임은 최소 2자 이상이어야 합니다.',
+                        },
+                        maxLength: {
+                           value: 10,
+                           message: '닉네임은 최대 10자 이하여야 합니다.',
+                        },
+                     })}
                   />
-                  {errors.nickname && <p className='error-text'>닉네임임을 입력해 주세요.</p>}
+                  {errors.nickname && <p className='error-text'>{errors.nickname.message}</p>}
                </fieldset>
                <fieldset>
                   비밀번호
                   <InputText
                      placeholder='****'
                      inputType='password'
-                     {...register('password', { required: true })}
+                     {...register('password', {
+                        required: '비밀번호를 입력해 주세요.',
+                        minLength: {
+                           value: 6,
+                           message: '비밀번호는 최소 6자 이상이어야 합니다.',
+                        },
+                     })}
                   />
-                  {errors.password && <p className='error-text'>비밀번호를 입력해 주세요.</p>}
+                  {errors.password && <p className='error-text'>{errors.password.message}</p>}
                </fieldset>
                <fieldset>
                   비밀번호 확인
                   <InputText
                      placeholder='****'
                      inputType='password'
-                     {...register('confirmPassword', { required: true })}
+                     {...register('confirmPassword', {
+                        required: '비밀번호 확인을 입력해 주세요.',
+                        validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다.', // watch 사용
+                     })}
                   />
-                  {errors.confirmPassword && <p className='error-text'>동일한 비밀번호를 입력해 주세요.</p>}
+                  {errors.confirmPassword && <p className='error-text'>{errors.confirmPassword.message}</p>}
                </fieldset>
+
                <fieldset>
                   <Button type='submit' size='medium' schema='primary'>
                      회원가입
                   </Button>
                </fieldset>
-               <div className='info'>
-                  <Link to='/findPassword'>비밀번호 찾기</Link>
-               </div>
             </form>
          </SignUpStyled>
       </>
