@@ -43,7 +43,6 @@ const Login = () => {
             console.log('로그인 응답:', response); // 디버깅용
             showAlert('로그인 되었습니다.');
 
-            // 🔹 로그인 후 `setUser` 호출
             setUser(response.user);
 
             navigate('/');

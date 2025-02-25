@@ -43,7 +43,7 @@ export const logout = async () => {
 
 export const resetPassword = async (email: string) => {
    try {
-      const response = await httpClient.post('/auth/reset-password', { email });
+      const response = await httpClient.post('/auth/resetPassword', { email });
       return response.data;
    } catch (error: any) {
       console.error('❌ 비밀번호 초기화 요청 실패:', error.response?.data || error.message);

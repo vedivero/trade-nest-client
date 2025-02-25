@@ -1,5 +1,7 @@
 import Footer from '../common/footer/Footer';
 import Header from '../common/header/Header';
+import { LayoutStyle } from './LayoutStyle';
+import { PopularSearchProvider } from '../../context/PopularSearchContext'; // 경로 확인 필요
 
 interface LayoutProps {
    children: React.ReactNode;
@@ -7,11 +9,13 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
    return (
-      <>
-         <Header />
-         <main>{children}</main>
-         <Footer />
-      </>
+      <PopularSearchProvider>
+         <>
+            <Header />
+            <LayoutStyle>{children}</LayoutStyle>
+            <Footer />
+         </>
+      </PopularSearchProvider>
    );
 };
 

@@ -1,8 +1,10 @@
+import { FooterStyle } from './FooterStyle';
+
 const Footer = () => {
    return (
       <>
          <hr />
-         <footer>copyright(c) trade nest</footer>
+         <FooterStyle>copyright(c) Trade Nest</FooterStyle>
       </>
    );
 };

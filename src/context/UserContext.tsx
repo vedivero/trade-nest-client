@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
    useEffect(() => {
       const userInfo = getUserFromCookies();
-      setUser(userInfo); // 초기화
+      setUser(userInfo);
    }, []);
 
    return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;

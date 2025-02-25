@@ -7,6 +7,8 @@ import Button from '../../common/button/Button';
 import { ThemeContext } from '../../../context/ThemeContext';
 import { useUser } from '../../../context/UserContext';
 import { logout } from '../../../api/auth.api';
+import { PopularSearch } from './PopularSearch';
+import { Search } from './Search';
 
 const Header = () => {
    const { themeName } = useContext(ThemeContext);
@@ -27,8 +29,18 @@ const Header = () => {
       <HeaderStyle>
          <div className='header-container'>
             <h1 className='logo'>
-               <img src={themeName === 'light' ? logo_light : logo_dark} alt='trade nest' />
+               <img
+                  src={themeName === 'light' ? logo_light : logo_dark}
+                  alt='trade nest'
+                  onClick={() => navigate('/')}
+                  style={{ cursor: 'pointer' }}
+               />
             </h1>
+            <div className='search-container'>
+               <Search />
+               <PopularSearch />
+            </div>
+
             <div className='auth-buttons'>
                {user && user.nickname ? (
                   <div className='user-actions'>

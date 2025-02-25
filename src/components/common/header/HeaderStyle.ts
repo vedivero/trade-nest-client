@@ -10,17 +10,17 @@ const HeaderStyle = styled.header`
    .header-container {
       display: flex;
       align-items: center;
-      justify-content: center; /* 로고를 정확히 중앙에 위치시킴 */
+      justify-content: left; /* 로고를 정확히 중앙에 위치시킴 */
       width: 100%;
       max-width: ${({ theme }) => theme.layout.width.large};
       padding: 0 1rem;
-      position: relative; /* auth-buttons의 위치 조정을 위해 relative 추가 */
+      position: relative;
 
       .logo {
          flex-grow: 0; /* 로고가 중앙에서 확장되지 않도록 설정 */
          text-align: center;
          img {
-            height: 150px; /* 로고 크기 */
+            height: 70px; /* 로고 크기 */
          }
       }
 
@@ -37,6 +37,15 @@ const HeaderStyle = styled.header`
          button {
             padding: 0.5rem 1rem;
          }
+      }
+      .search-container {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         position: absolute;
+         left: 50%;
+         transform: translateX(-50%);
+         top: 20px;
       }
    }
 `;

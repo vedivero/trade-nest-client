@@ -39,7 +39,7 @@ export const light: Theme = {
    name: 'light',
    color: {
       primary: 'navy',
-      background: 'lightgray',
+      background: 'white',
       secondary: 'blue',
       third: 'green',
       border: 'gray',
@@ -85,7 +85,7 @@ export const light: Theme = {
    },
    layout: {
       width: {
-         large: '100%',
+         large: '1200px',
          medium: '760px',
          small: '320px',
       },
