@@ -6,6 +6,7 @@ import VerifyEmail from '../pages/signUp/VerifyEmail';
 import Login from '../pages/login/Login';
 import ResetPassword from '../pages/resetPassword/ResetPassword';
 import { Products } from '../pages/products/Products';
+import { ProductDetail } from '../components/products/ProductDetail';
 
 export const router = createBrowserRouter([
    {
@@ -49,10 +50,10 @@ export const router = createBrowserRouter([
       ),
    },
    {
-      path: '/products',
+      path: '/productDetail/:id',
       element: (
          <Layout>
-            <Products />
+            <ProductDetail />
          </Layout>
       ),
    },
