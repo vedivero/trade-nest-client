@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { ProductItem } from './ProductItem';
 import { ProductListStyle } from './ProductListStyle';
-import { useProduct } from '../../hooks/useProduct';
+import { useProduct } from '../../hooks/useProducts';
 
 export const ProductList = () => {
    const { products, loadMore, hasMore, loading } = useProduct();

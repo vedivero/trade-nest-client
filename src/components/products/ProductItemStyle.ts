@@ -14,6 +14,15 @@ export const ProductItemStyle = styled.div`
    height: 340px; /* 전체 높이 조정 */
    position: relative;
 
+   .product-link {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      text-decoration: none; /* 기본적인 밑줄 제거 */
+      color: inherit; /* 부모 요소의 색상을 상속 */
+   }
+
    .img {
       width: 100%;
       height: 200px;
