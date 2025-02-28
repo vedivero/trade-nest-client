@@ -3,17 +3,17 @@ import { Product } from '../../models/product.model';
 import { getImgSrc } from '../../utils/image';
 import { ProductItemStyle } from './ProductItemStyle';
 import { formatNumber } from '../../utils/format';
-import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-interface ProductProps {
+interface ProductItemProps {
    product: Product;
+   isFavorited: boolean;
 }
 
-export const ProductItem = forwardRef<HTMLDivElement, ProductProps>(({ product }, ref) => {
+export const ProductItem = forwardRef<HTMLDivElement, ProductItemProps>(({ product, isFavorited }, ref) => {
    return (
       <ProductItemStyle ref={ref}>
-         <Link to={`/productDetail/${product.id}`} className='product-link'>
+         <Link to={`/productDetail/${product.id}`} state={{ isFavorited }} className='product-link'>
             <div className='img'>
                <img src={getImgSrc()} alt={product.product_nm} />
             </div>
@@ -24,8 +24,8 @@ export const ProductItem = forwardRef<HTMLDivElement, ProductProps>(({ product }
                <p className='seller'>{product.seller_id}</p>
                <div className='bottom-section'>
                   <p className='price'>{formatNumber(product.product_price)}원</p>
-                  <div className='favorite'>
-                     <FaHeart />
+                  <div className={`favorite ${isFavorited ? 'favorited' : ''}`}>
+                     {isFavorited ? '❤️' : '🤍'}
                      <span>{product.favorite_cnt}</span>
                   </div>
                </div>
