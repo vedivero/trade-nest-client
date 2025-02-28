@@ -11,6 +11,7 @@ export interface Product {
    expiry_date?: string; // 등록 만료일 (선택적)
    view_cnt: number; // 조회 수
    favorite_cnt: number; // 좋아요 수
+   isFavorited?: boolean; // 로그인한 사용자가 찜했는지 여부
    seller_id: number; // 판매자 ID (User 참조)
    trade_loc: string; // 거래 희망 장소
    trade_status: string; // 거래 상태 (available, reserved, completed)
