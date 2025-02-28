@@ -1,5 +1,5 @@
 import { ProductDetailStyle } from './ProductDetailStyle';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Title from '../common/title/Title';
 import { getImgSrc } from '../../utils/image';
 import { Product } from '../../models/product.model';
@@ -31,17 +31,17 @@ const productList = [
 
 export const ProductDetail = () => {
    const { id } = useParams<{ id: string }>();
+   const location = useLocation();
    const { user } = useUser();
    const [product, setProduct] = useState<Product | null>(null);
    const [favorites, setFavorites] = useState(0);
-   const [favorited, setFavorited] = useState(false);
+   const [favorited, setFavorited] = useState<boolean>(location.state?.isFavorited ?? false);
 
    useEffect(() => {
       const loadProduct = async () => {
          const data = await fetchProduct(Number(id));
          setProduct(data ?? null);
          setFavorites(data.favorite_cnt);
-         setFavorited(data.isFavorited ?? false);
       };
 
       loadProduct();
@@ -88,7 +88,6 @@ export const ProductDetail = () => {
                   </dl>
                ))}
 
-               {/* 버튼 추가된 영역 */}
                <div className='product-buttons'>
                   <button
                      className={`favorite-button ${favorited ? 'favorited' : ''}`}

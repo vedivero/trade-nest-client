@@ -1,20 +1,20 @@
+import { FavoritedProducts } from '../models/FavoritedProducts.model';
 import { Product } from '../models/product.model';
 import { httpClient } from './http';
 
 /**
  * 전체 상품 조회
  */
-export const fetchProducts = async (page: number = 1) => {
-   const response = await httpClient.get<{ products: Product[]; total: number }>(
-      `/product/products?page=${page},`,
+export const fetchProducts = async () => {
+   const response = await httpClient.get<{ products: Product[]; favoritedProducts: FavoritedProducts[] }>(
+      `/product/products`,
       {
          withCredentials: true,
       },
    );
-   console.log('🔍 fetchProduct 응답:', response.data);
-   return response.data.products.map((product) => ({
-      ...product,
-   }));
+   const products = response.data.products?.map((product) => ({ ...product })) || [];
+   const favoriteProducts = response.data.favoritedProducts?.map((fav) => ({ ...fav })) || [];
+   return { products, favoriteProducts };
 };
 
 /**
@@ -29,23 +29,15 @@ export const fetchProduct = async (id: number) => {
  * 찜하기 추가 (favorite 증가)
  */
 export const addFavorite = async (id: number) => {
-   // const response = await httpClient.post(`/product/favorite/${id}`);
-   // return response.data;
-   return await httpClient.post(
-      `/product/favorite/${id}`,
-      {},
-      {
-         withCredentials: true,
-      },
-   );
+   return await httpClient.post(`/product/favorite/${id}`, {
+      withCredentials: true,
+   });
 };
 
 /**
  * 찜하기 취소 (favorite 감소)
  */
 export const removeFavorite = async (id: number) => {
-   // const response = await httpClient.delete(`/product/favorite/${id}`);
-   // return response.data;
    return await httpClient.delete(`/product/favorite/${id}`, {
       withCredentials: true,
    });
