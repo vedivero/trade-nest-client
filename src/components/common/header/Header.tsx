@@ -22,7 +22,7 @@ const Header = () => {
    const handleLogout = async () => {
       await logout();
       setUser(null);
-      navigate('/');
+      window.location.reload();
    };
 
    return (
