@@ -10,7 +10,7 @@ import { useUser } from '../../context/UserContext';
 interface ProductItemProps {
    product: Product;
    isFavorited: boolean;
-   onFavoriteToggle: (productId: number, isFavorited: boolean) => void; // ✅ 부모 상태 업데이트 함수 추가
+   onFavoriteToggle: (productId: number, isFavorited: boolean) => void;
 }
 
 export const ProductItem = forwardRef<HTMLDivElement, ProductItemProps>(
@@ -19,13 +19,12 @@ export const ProductItem = forwardRef<HTMLDivElement, ProductItemProps>(
       const [favorited, setFavorited] = useState<boolean>(isFavorited);
       const [favorites, setFavorites] = useState<number>(product.favorite_cnt);
 
-      // ✅ 부모(`ProductList.tsx`)에서 `isFavorited` 값이 변경되면 다시 반영
       useEffect(() => {
          setFavorited(isFavorited);
       }, [isFavorited]);
 
       const handleFavorite = async (event: React.MouseEvent) => {
-         event.preventDefault(); // ✅ 상세 페이지 이동 방지
+         event.preventDefault();
          if (!user) {
             alert('로그인이 필요합니다.');
             return;
@@ -38,11 +37,11 @@ export const ProductItem = forwardRef<HTMLDivElement, ProductItemProps>(
                setFavorites((prev) => prev + 1);
             } else {
                await removeFavorite(product.id);
-               setFavorites((prev) => Math.max(prev - 1, 0)); // ✅ 최소값 0 유지
+               setFavorites((prev) => Math.max(prev - 1, 0));
             }
 
             setFavorited(updatedFavorited);
-            onFavoriteToggle(product.id, updatedFavorited); // ✅ 부모 상태 업데이트 호출
+            onFavoriteToggle(product.id, updatedFavorited);
          } catch (error) {
             alert('찜하기 요청 중 오류가 발생했습니다.');
          }

@@ -93,7 +93,7 @@ export const ProductDetail = () => {
                      className={`favorite-button ${favorited ? 'favorited' : ''}`}
                      onClick={handleFavorite}
                   >
-                     {favorited ? '❤️' : '🤍'} 찜하기 {favorites}
+                     {favorited ? '🤍' : '❤️'} 찜하기 {favorites}
                   </button>
                   <button className='chat-button' onClick={() => alert('채팅 페이지로 이동')}>
                      🗨️ 채팅하기
