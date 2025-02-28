@@ -50,13 +50,13 @@ export const ProductDetailStyle = styled.div`
       border: none;
    }
 
-   .like-button {
+   .favorite-button {
       background: rgb(0, 0, 0);
       border: 1px solid rgb(0, 0, 0);
       color: rgb(255, 255, 255);
    }
 
-   .like-button.liked {
+   .favorite-button.favorited {
       background: #ff4d4f;
       color: #fff;
    }

@@ -1,18 +1,19 @@
 import { ProductDetailStyle } from './ProductDetailStyle';
-import { useProductDetail } from '../../hooks/useProduct';
 import { useParams } from 'react-router-dom';
 import Title from '../common/title/Title';
 import { getImgSrc } from '../../utils/image';
 import { Product } from '../../models/product.model';
 import { formatDate, formatNumber } from '../../utils/format';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { addFavorite, fetchProduct, removeFavorite } from '../../api/product.api';
+import { useUser } from '../../context/UserContext';
 
 const productList = [
    { label: '카테고리', key: 'product_category' },
    {
       label: '가격',
       key: 'product_price',
-      filter: (product: Product) => `₩ ${formatNumber(product.product_price)}원`,
+      filter: (product: Product) => `${formatNumber(product.product_price)}원`,
    },
    {
       label: '상품 상태',
@@ -29,19 +30,45 @@ const productList = [
 ];
 
 export const ProductDetail = () => {
-   const { id } = useParams<{ id: string }>(); // URL에서 상품 ID 가져오기
-   const product = useProductDetail(Number(id)); // useProductDetail 훅으로 데이터 가져오기
+   const { id } = useParams<{ id: string }>();
+   const { user } = useUser();
+   const [product, setProduct] = useState<Product | null>(null);
+   const [favorites, setFavorites] = useState(0);
+   const [favorited, setFavorited] = useState(false);
 
-   const [likes, setLikes] = useState(product?.favorite_cnt || 0);
-   const [liked, setLiked] = useState(false);
+   useEffect(() => {
+      const loadProduct = async () => {
+         const data = await fetchProduct(Number(id));
+         setProduct(data ?? null);
+         setFavorites(data.favorite_cnt);
+         setFavorited(data.isFavorited ?? false);
+      };
+
+      loadProduct();
+   }, [id]);
 
    if (!product) {
       return <ProductDetailStyle>상품 정보를 찾을 수 없습니다.</ProductDetailStyle>;
    }
 
-   const handleLike = () => {
-      setLiked(!liked);
-      setLikes((prev) => (liked ? prev - 1 : prev + 1));
+   const handleFavorite = async () => {
+      if (!user) {
+         alert('로그인이 필요합니다.');
+         return;
+      }
+
+      try {
+         if (favorited) {
+            await removeFavorite(product.id);
+            setFavorites((prev) => prev - 1);
+         } else {
+            await addFavorite(product.id);
+            setFavorites((prev) => prev + 1);
+         }
+         setFavorited(!favorited);
+      } catch (error) {
+         alert('찜하기 요청 중 오류가 발생했습니다.');
+      }
    };
 
    return (
@@ -63,8 +90,11 @@ export const ProductDetail = () => {
 
                {/* 버튼 추가된 영역 */}
                <div className='product-buttons'>
-                  <button className={`like-button ${liked ? 'liked' : ''}`} onClick={handleLike}>
-                     {liked ? '🤍' : '❤️'} 찜하기 {likes}
+                  <button
+                     className={`favorite-button ${favorited ? 'favorited' : ''}`}
+                     onClick={handleFavorite}
+                  >
+                     {favorited ? '❤️' : '🤍'} 찜하기 {favorites}
                   </button>
                   <button className='chat-button' onClick={() => alert('채팅 페이지로 이동')}>
                      🗨️ 채팅하기

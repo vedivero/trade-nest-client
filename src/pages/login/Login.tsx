@@ -41,10 +41,7 @@ const Login = () => {
       login(data)
          .then((response) => {
             console.log('로그인 응답:', response); // 디버깅용
-            showAlert('로그인 되었습니다.');
-
             setUser(response.user);
-
             navigate('/');
          })
          .catch((error) => {
