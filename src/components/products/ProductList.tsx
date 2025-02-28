@@ -35,7 +35,7 @@ export const ProductList = () => {
                   key={product.id}
                   product={product}
                   isFavorited={isFavorited}
-                  onFavoriteToggle={handleFavoriteToggle} // ✅ 상태 업데이트 함수 전달
+                  onFavoriteToggle={handleFavoriteToggle}
                />
             );
          })}
