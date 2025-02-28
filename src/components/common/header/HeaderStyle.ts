@@ -26,18 +26,36 @@ const HeaderStyle = styled.header`
 
       .auth-buttons {
          display: flex;
-         flex-direction: column; /* 버튼을 세로로 정렬 */
-         justify-content: flex-end; /* 하단 정렬 */
-         align-items: flex-end; /* 오른쪽 정렬 */
+         flex-direction: column;
+         justify-content: flex-end;
+         align-items: flex-end;
          gap: 0.5rem;
-         position: absolute; /* 부모 컨테이너 기준으로 위치 고정 */
-         bottom: 0; /* 하단에 배치 */
-         right: 1rem; /* 오른쪽 여백 */
+         position: absolute;
+         bottom: 0;
+         right: 1rem;
 
-         button {
-            padding: 0.5rem 1rem;
+         .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+
+            .user-info {
+               font-size: 14px;
+               font-weight: bold;
+               color: #333;
+            }
+
+            button {
+               padding: 6px 10px;
+               font-size: 12px;
+               border-radius: 6px;
+            }
          }
       }
+
       .search-container {
          display: flex;
          flex-direction: column;
@@ -46,6 +64,18 @@ const HeaderStyle = styled.header`
          left: 50%;
          transform: translateX(-50%);
          top: 20px;
+      }
+   }
+   button {
+      padding: 8px 12px;
+      background-color: rgb(3, 83, 169);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+         background-color: rgb(118, 180, 246);
       }
    }
 `;

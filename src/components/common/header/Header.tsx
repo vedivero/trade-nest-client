@@ -44,7 +44,9 @@ const Header = () => {
             <div className='auth-buttons'>
                {user && user.nickname ? (
                   <div className='user-actions'>
-                     <span className='user-info'>안녕하세요, {user.nickname}님!</span>
+                     <span className='user-info'>
+                        👋 <strong>{user.nickname}</strong>님, 환영합니다!
+                     </span>
                      <Button size='small' schema='normal' onClick={handleLogout}>
                         로그아웃
                      </Button>
