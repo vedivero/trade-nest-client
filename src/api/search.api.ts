@@ -1,3 +1,5 @@
+import { FavoritedProducts } from '../models/FavoritedProducts.model';
+import { Product } from '../models/product.model';
 import { httpClient } from './http';
 
 /**
@@ -5,7 +7,7 @@ import { httpClient } from './http';
  */
 export const getPopularKeywords = async (): Promise<string[]> => {
    try {
-      const response = await httpClient.get('/keyword/getPopularKeywords');
+      const response = await httpClient.get('/search/getPopularKeywords');
       return response.data.data.map((keyword: { keyword: string }) => keyword.keyword);
    } catch (error: any) {
       console.error('Top10 인기 검색어 조회 실패:', error.response?.data || error.message);
@@ -19,7 +21,9 @@ export const getPopularKeywords = async (): Promise<string[]> => {
  */
 export const saveSearchKeyword = async (keyword: string): Promise<void> => {
    try {
-      await httpClient.get(`/keyword?saveKeyword=${encodeURIComponent(keyword)}`);
+      await httpClient.get(`/search/saveKeyword`, {
+         params: { keyword },
+      });
    } catch (error: any) {
       console.error('검색어 저장 실패:', error.response?.data || error.message);
       throw new Error('검색어 저장 중 오류가 발생했습니다.');
@@ -27,12 +31,29 @@ export const saveSearchKeyword = async (keyword: string): Promise<void> => {
 };
 
 /**
- *  상품 검색 API
+ *  상품 검색 APIPromise<{ products: Product[]; favoriteProducts: FavoritedProducts[] }> => {
  * @param keyword 사용자가 입력한 검색어
+ * @returns 검색된 상품 목록과 찜한 상품 ID 목록
  */
-export const searchProducts = async (keyword: string): Promise<void> => {
+export const searchProducts = async (
+   keyword: string,
+): Promise<{ products: Product[]; favoriteProducts: FavoritedProducts[] }> => {
    try {
-      await httpClient.get(`/keyword/searchProducts/searchKeyword=${encodeURIComponent(keyword)}`);
+      const response = await httpClient.get<{
+         products: Product[];
+         favoritedProducts: FavoritedProducts[];
+      }>('/search/searchProducts', {
+         params: { searchKeyword: keyword },
+         withCredentials: true,
+      });
+
+      const products = response.data.products || [];
+      const favoriteProducts = response.data.favoritedProducts || [];
+
+      console.log('products : ', products);
+      console.log('favoriteProducts : ', favoriteProducts);
+
+      return { products, favoriteProducts };
    } catch (error: any) {
       console.error('상품 검색 실패:', error.response?.data || error.message);
       throw new Error('상품 검색 중 오류가 발생했습니다.');

@@ -4,7 +4,7 @@ const Footer = () => {
    return (
       <>
          <hr />
-         <FooterStyle>copyright(c) Trade Nest</FooterStyle>
+         <FooterStyle>Copyright © 2025 Trade Nest. All rights reserved.</FooterStyle>
       </>
    );
 };
