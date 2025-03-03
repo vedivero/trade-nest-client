@@ -10,17 +10,17 @@ const HeaderStyle = styled.header`
    .header-container {
       display: flex;
       align-items: center;
-      justify-content: left; /* 로고를 정확히 중앙에 위치시킴 */
+      justify-content: left;
       width: 100%;
       max-width: ${({ theme }) => theme.layout.width.large};
       padding: 0 1rem;
       position: relative;
 
       .logo {
-         flex-grow: 0; /* 로고가 중앙에서 확장되지 않도록 설정 */
+         flex-grow: 0;
          text-align: center;
          img {
-            height: 70px; /* 로고 크기 */
+            height: 70px;
          }
       }
 
@@ -31,16 +31,14 @@ const HeaderStyle = styled.header`
          align-items: flex-end;
          gap: 0.5rem;
          position: absolute;
-         bottom: 0;
+         top: 10px;
          right: 1rem;
 
          .user-actions {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 8px;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
 
             .user-info {
                font-size: 14px;
@@ -48,10 +46,10 @@ const HeaderStyle = styled.header`
                color: #333;
             }
 
-            button {
-               padding: 6px 10px;
-               font-size: 12px;
-               border-radius: 6px;
+            .button-group {
+               display: flex;
+               flex-direction: row;
+               gap: 8px;
             }
          }
       }
@@ -66,6 +64,7 @@ const HeaderStyle = styled.header`
          top: 20px;
       }
    }
+
    button {
       padding: 8px 12px;
       background-color: rgb(3, 83, 169);

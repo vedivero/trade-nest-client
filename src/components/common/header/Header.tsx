@@ -19,6 +19,10 @@ const Header = () => {
       navigate('/login');
    };
 
+   const handleMyPageClick = () => {
+      navigate('/mypage');
+   };
+
    const handleLogout = async () => {
       await logout();
       setUser(null);
@@ -47,9 +51,14 @@ const Header = () => {
                      <span className='user-info'>
                         👋 <strong>{user.nickname}</strong>님, 환영합니다!
                      </span>
-                     <Button size='small' schema='normal' onClick={handleLogout}>
-                        로그아웃
-                     </Button>
+                     <div className='button-group'>
+                        <Button size='small' schema='normal' onClick={handleMyPageClick}>
+                           마이페이지
+                        </Button>
+                        <Button size='small' schema='normal' onClick={handleLogout}>
+                           로그아웃
+                        </Button>
+                     </div>
                   </div>
                ) : (
                   <Button size='small' schema='normal' onClick={handleAuthClick}>
