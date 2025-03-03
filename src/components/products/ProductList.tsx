@@ -1,7 +1,8 @@
+// ProductList.tsx
 import { useEffect, useState } from 'react';
 import { ProductItem } from './ProductItem';
 import { ProductListStyle } from './ProductListStyle';
-import { useProduct } from '../../hooks/useProducts';
+import { useProduct } from '../../context/ProductProvider';
 
 interface FavoritedProduct {
    product_id: number;
@@ -10,13 +11,11 @@ interface FavoritedProduct {
 
 export const ProductList = () => {
    const { products, favoriteProducts } = useProduct();
-   const [productList, setProductList] = useState(products);
    const [favoriteProductsList, setFavoriteProductsList] = useState<FavoritedProduct[]>(favoriteProducts);
 
    useEffect(() => {
-      setProductList(products);
       setFavoriteProductsList(favoriteProducts);
-   }, [products, favoriteProducts]);
+   }, [favoriteProducts]);
 
    const handleFavoriteToggle = (productId: number, isFavorited: boolean) => {
       setFavoriteProductsList((prev) =>
@@ -28,11 +27,11 @@ export const ProductList = () => {
 
    return (
       <ProductListStyle>
-         {productList.map((product) => {
+         {products.map((product, index) => {
             const isFavorited = favoriteProductsList.some((fav) => fav.product_id === product.id);
             return (
                <ProductItem
-                  key={product.id}
+                  key={`product-${product.id}-${index}`}
                   product={product}
                   isFavorited={isFavorited}
                   onFavoriteToggle={handleFavoriteToggle}

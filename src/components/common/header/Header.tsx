@@ -32,7 +32,7 @@ const Header = () => {
                <img
                   src={themeName === 'light' ? logo_light : logo_dark}
                   alt='trade nest'
-                  onClick={() => navigate('/')}
+                  onClick={() => (window.location.href = '/')}
                   style={{ cursor: 'pointer' }}
                />
             </h1>
