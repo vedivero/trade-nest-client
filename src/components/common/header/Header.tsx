@@ -26,7 +26,7 @@ const Header = () => {
    const handleLogout = async () => {
       await logout();
       setUser(null);
-      window.location.reload();
+      window.location.href = '/';
    };
 
    return (

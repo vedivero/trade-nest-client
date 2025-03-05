@@ -15,9 +15,6 @@ export const fetchProducts = async () => {
    const products = response.data.products?.map((product) => ({ ...product })) || [];
    const favoriteProducts = response.data.favoritedProducts?.map((fav) => ({ ...fav })) || [];
 
-   console.log('products : ', products);
-   console.log('favoriteProducts : ', favoriteProducts);
-
    return { products, favoriteProducts };
 };
 

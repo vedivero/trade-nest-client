@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/common/button/Button';
 import InputText from '../../components/common/inputText/InputText';
 import Title from '../../components/common/title/Title';
