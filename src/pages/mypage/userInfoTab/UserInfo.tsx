@@ -20,10 +20,11 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
    console.log('userData : ', userData);
 
    const [isPasswordEditable, setIsPasswordEditable] = useState(false);
+   const isSocialLogin = userData?.social_provider !== 'self';
+
    const navigate = useNavigate();
    const showAlert = useAlert();
 
-   // useForm 훅 설정
    const {
       register,
       handleSubmit,
@@ -37,13 +38,15 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
       },
    });
 
-   // 비밀번호 변경 모드 전환
    const handleShowPasswordInput = () => {
+      if (isSocialLogin) {
+         alert('소셜 로그인 사용자는 비밀번호를 변경할 수 없습니다.');
+         return;
+      }
       setIsPasswordEditable((prev) => !prev);
-      reset(); // 폼 초기화
+      reset();
    };
 
-   // 저장 버튼 클릭 시 서버에 데이터 전송
    const onSubmit = (data: PasswordChangeFormProps) => {
       const payload = {
          userId: userData?.id,
@@ -56,7 +59,7 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
             showAlert('회원 정보가 성공적으로 변경되었습니다.');
             setIsPasswordEditable(false);
             reset();
-            navigate('/mypage'); // 마이페이지로 이동 (필요시)
+            navigate('/mypage');
          })
          .catch((error: any) => {
             const serverMessage = error.response?.data?.message;
