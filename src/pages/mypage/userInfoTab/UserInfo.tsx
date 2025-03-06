@@ -11,8 +11,8 @@ interface UserInfoTabProps {
 }
 
 interface PasswordChangeFormProps {
-   password: string;
-   confirmPassword: string;
+   password?: string;
+   confirmPassword?: string;
    location: string;
 }
 
@@ -44,13 +44,13 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
          return;
       }
       setIsPasswordEditable((prev) => !prev);
-      reset();
+      reset({ password: '', confirmPassword: '' });
    };
 
    const onSubmit = (data: PasswordChangeFormProps) => {
       const payload = {
-         userId: userData?.id,
-         password: data.password,
+         userId: userData?.id ?? 0,
+         ...(data.password ? { password: data.password } : {}),
          location: data.location,
       };
 
@@ -58,7 +58,6 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
          .then(() => {
             showAlert('회원 정보가 성공적으로 변경되었습니다.');
             setIsPasswordEditable(false);
-            reset();
             navigate('/mypage');
          })
          .catch((error: any) => {
@@ -67,6 +66,9 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
             showAlert(message);
          });
    };
+
+   const currentLocation = watch('location');
+   const isLocationChanged = userData?.location !== currentLocation;
 
    return (
       <UserInfoStyle>
@@ -103,7 +105,12 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
                            },
                         })}
                      />
-                     <button className='pwd-change-btn' type='button' onClick={handleShowPasswordInput}>
+                     <button
+                        className='pwd-change-btn'
+                        type='button'
+                        onClick={handleShowPasswordInput}
+                        disabled={isSocialLogin}
+                     >
                         {isPasswordEditable ? '취소' : '변경'}
                      </button>
                   </div>
@@ -141,7 +148,11 @@ export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
                   </div>
                </fieldset>
 
-               <button className='save-btn' type='submit' disabled={!isPasswordEditable}>
+               <button
+                  className='save-btn'
+                  type='submit'
+                  disabled={!isLocationChanged && !isPasswordEditable}
+               >
                   저장
                </button>
             </form>

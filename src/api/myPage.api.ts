@@ -9,10 +9,10 @@ export const getUserInfo = async (): Promise<User> => {
 };
 
 interface UpdateUserInfoProps {
-   password: string;
+   userId: number;
+   password?: string;
    location: string;
 }
-
 export const updateUserInfo = async (data: UpdateUserInfoProps): Promise<User> => {
    const response = await httpClient.post('/user/updateUserInfo', data, {
       withCredentials: true,
