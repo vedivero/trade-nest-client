@@ -18,19 +18,13 @@ export const MyPage = () => {
             try {
                setLoading(true);
                const data = await getUserInfo();
-
-               if (data) {
-                  setUserData(data);
-               } else {
-                  setUserData(null);
-               }
+               setUserData(data ?? null);
             } catch (err) {
                setError('유저 정보를 불러오는데 실패했습니다.');
             } finally {
                setLoading(false);
             }
          };
-
          fetchUserInfo();
       }
    }, [activeTab, userData]);
