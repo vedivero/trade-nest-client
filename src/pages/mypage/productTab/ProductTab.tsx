@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ProductTabStyle } from './ProductTabStyle';
-import {
-   deleteProduct,
-   getAllProducts,
-   getProductsByStatus,
-   updateProductStatus,
-} from '../../../api/myPage.api';
+import { getAllProducts, getProductsByStatus, updateProductStatus } from '../../../api/myPage.api';
 import { Product } from '../../../models/product.model';
 
 export const ProductTab = () => {
@@ -26,7 +21,10 @@ export const ProductTab = () => {
          } else {
             data = await getProductsByStatus(activeStatus);
          }
-         setProducts(data);
+
+         // ❌ 삭제된 상품을 제외하고 상태 업데이트
+         const filteredData = data.filter((product) => product.trade_status !== 'deleted');
+         setProducts(filteredData);
       } catch (err) {
          setError('상품 목록을 불러오는데 실패했습니다.');
       } finally {
@@ -38,43 +36,29 @@ export const ProductTab = () => {
       fetchProducts();
    }, [activeStatus]);
 
-   // 🚦 상품 상태 변경 (판매중 / 판매중지)
+   // 🚦 상품 상태 변경 (판매중 / 판매중지 / 삭제)
    const handleUpdateProductStatus = async (
       productId: number,
       productName: string,
-      status: 'available' | 'stopped',
+      status: 'available' | 'stopped' | 'deleted',
    ) => {
-      const action = status === 'available' ? '판매 재개' : '판매 중지';
+      const action = status === 'available' ? '판매 재개' : status === 'stopped' ? '판매 중지' : '삭제';
       const isConfirmed = window.confirm(`'${productName}' 상품을 ${action}하시겠습니까?`);
       if (isConfirmed) {
          try {
             await updateProductStatus(productId, status);
             alert(`상품이 ${action}되었습니다.`);
+
             setProducts((prevProducts) =>
-               prevProducts.map((product) =>
-                  product.id === productId ? { ...product, trade_status: status } : product,
-               ),
+               prevProducts
+                  .map((product) =>
+                     product.id === productId ? { ...product, trade_status: status } : product,
+                  )
+                  .filter((product) => product.trade_status !== 'deleted'),
             );
          } catch (error) {
             alert(`${action}에 실패했습니다.`);
             console.error(`${action} 실패:`, error);
-         }
-      }
-   };
-
-   // 🚦 상품 삭제 처리
-   const handleDeleteProduct = async (productId: number, productName: string) => {
-      const isConfirmed = window.confirm(
-         `'${productName}' 상품을 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.`,
-      );
-      if (isConfirmed) {
-         try {
-            await deleteProduct(productId);
-            alert('상품이 삭제되었습니다.');
-            setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
-         } catch (error) {
-            alert('상품 삭제에 실패했습니다.');
-            console.error('상품 삭제 실패:', error);
          }
       }
    };
@@ -85,6 +69,7 @@ export const ProductTab = () => {
       reserved: '예약중',
       completed: '판매완료',
       stopped: '판매중지',
+      deleted: '삭제됨',
    };
 
    return (
@@ -128,42 +113,41 @@ export const ProductTab = () => {
                            <td>{product.product_price.toLocaleString()}원</td>
                            <td>{new Date(product.product_reg_date).toLocaleDateString()}</td>
                            <td>
-                              {product.trade_status === 'available' && (
+                              {['available', 'stopped'].includes(product.trade_status) && (
                                  <>
-                                    <button
-                                       className='action-button stop'
-                                       onClick={() =>
-                                          handleUpdateProductStatus(product.id, product.product_nm, 'stopped')
-                                       }
-                                    >
-                                       판매 중지
-                                    </button>
+                                    {product.trade_status === 'available' && (
+                                       <button
+                                          className='action-button stop'
+                                          onClick={() =>
+                                             handleUpdateProductStatus(
+                                                product.id,
+                                                product.product_nm,
+                                                'stopped',
+                                             )
+                                          }
+                                       >
+                                          판매 중지
+                                       </button>
+                                    )}
+                                    {product.trade_status === 'stopped' && (
+                                       <button
+                                          className='action-button resume'
+                                          onClick={() =>
+                                             handleUpdateProductStatus(
+                                                product.id,
+                                                product.product_nm,
+                                                'available',
+                                             )
+                                          }
+                                       >
+                                          판매 재개
+                                       </button>
+                                    )}
                                     <button
                                        className='action-button delete'
-                                       onClick={() => handleDeleteProduct(product.id, product.product_nm)}
-                                    >
-                                       삭제
-                                    </button>
-                                 </>
-                              )}
-
-                              {product.trade_status === 'stopped' && (
-                                 <>
-                                    <button
-                                       className='action-button resume'
                                        onClick={() =>
-                                          handleUpdateProductStatus(
-                                             product.id,
-                                             product.product_nm,
-                                             'available',
-                                          )
+                                          handleUpdateProductStatus(product.id, product.product_nm, 'deleted')
                                        }
-                                    >
-                                       판매 재개
-                                    </button>
-                                    <button
-                                       className='action-button delete'
-                                       onClick={() => handleDeleteProduct(product.id, product.product_nm)}
                                     >
                                        삭제
                                     </button>
