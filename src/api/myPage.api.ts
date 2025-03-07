@@ -40,13 +40,13 @@ export const getProductsByStatus = async (
 };
 
 /**
- * 📌 상품 상태 업데이트 API 호출 (판매중 / 판매중지)
+ * 상품 상태 업데이트 API 호출 (판매중 / 판매중지 / 삭제)
  * @param productId - 상품 ID
- * @param status - 변경할 상품 상태 ('available' | 'stopped')
+ * @param status - 변경할 상품 상태 ('available' | 'stopped' | 'deleted')
  */
 export const updateProductStatus = async (
    productId: number,
-   status: 'available' | 'stopped',
+   status: 'available' | 'stopped' | 'deleted',
 ): Promise<void> => {
    await httpClient.patch(
       `/product/mypage/product/${productId}/status`,
@@ -55,11 +55,4 @@ export const updateProductStatus = async (
          withCredentials: true,
       },
    );
-};
-
-// 상품 삭제 API 호출
-export const deleteProduct = async (productId: number): Promise<void> => {
-   await httpClient.delete(`/product/mypage/product/${productId}`, {
-      withCredentials: true,
-   });
 };
