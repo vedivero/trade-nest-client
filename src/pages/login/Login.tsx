@@ -37,17 +37,24 @@ const Login = () => {
       }
    };
 
-   const onSubmit = (data: LoginProps) => {
-      login(data)
-         .then((response) => {
-            console.log('로그인 응답:', response); // 디버깅용
+   const onSubmit = async (data: LoginProps) => {
+      try {
+         const response = await login(data);
+
+         if (response.user?.password_reset) {
+            showAlert('비밀번호 변경해 주세요.');
             setUser(response.user);
-            navigate('/');
-         })
-         .catch((error) => {
-            console.error('로그인 오류:', error.response?.data?.message);
-            showAlert('로그인 중 오류가 발생했습니다.');
-         });
+            navigate('/mypage', { state: { focusPasswordInput: true } });
+            return;
+         }
+
+         setUser(response.user);
+         showAlert('로그인 성공');
+         navigate('/');
+      } catch (error: any) {
+         console.error('로그인 오류:', error.response?.data?.message);
+         showAlert('로그인 중 오류가 발생했습니다.');
+      }
    };
 
    return (

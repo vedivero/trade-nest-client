@@ -14,6 +14,8 @@ interface UpdateUserInfoProps {
    password?: string;
    location: string;
 }
+
+// 회원 정보 수정
 export const updateUserInfo = async (data: UpdateUserInfoProps): Promise<User> => {
    const response = await httpClient.post('/user/updateUserInfo', data, {
       withCredentials: true,

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { User } from '../../../models/user.model';
 import { UserInfoStyle } from './UserInfoStyle';
 import { updateUserInfo } from '../../../api/myPage.api';
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 훅
+import { useLocation, useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 훅
 import { useAlert } from '../../../hooks/useAlert'; // 알림 표시 훅
 
 interface UserInfoTabProps {
@@ -17,13 +17,25 @@ interface PasswordChangeFormProps {
 }
 
 export const UserInfoTab: React.FC<UserInfoTabProps> = ({ userData }) => {
-   console.log('userData : ', userData);
-
    const [isPasswordEditable, setIsPasswordEditable] = useState(false);
    const isSocialLogin = userData?.social_provider !== 'self';
 
    const navigate = useNavigate();
    const showAlert = useAlert();
+
+   const passwordInputRef = useRef<HTMLInputElement>(null);
+   const { state } = useLocation();
+
+   useEffect(() => {
+      if (state?.focusPasswordInput) {
+         setIsPasswordEditable(true);
+         setTimeout(() => {
+            if (passwordInputRef.current) {
+               passwordInputRef.current.focus();
+            }
+         }, 300);
+      }
+   }, [state]);
 
    const {
       register,
