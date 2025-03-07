@@ -36,7 +36,7 @@ export const ProductTab = () => {
       fetchProducts();
    }, [activeStatus]);
 
-   // 🚦 상품 상태 변경 (판매중 / 판매중지 / 삭제)
+   //  상품 상태 변경 (판매중 / 판매중지 / 삭제)
    const handleUpdateProductStatus = async (
       productId: number,
       productName: string,
@@ -77,7 +77,7 @@ export const ProductTab = () => {
          <div className='product-container'>
             <h2>상품 관리</h2>
             <div className='status-tabs'>
-               {(['all', 'available', 'reserved', 'completed', 'stopped'] as const).map((status) => (
+               {(['all', 'available', 'reserved', 'completed'] as const).map((status) => (
                   <span
                      key={status}
                      className={activeStatus === status ? 'active' : ''}
